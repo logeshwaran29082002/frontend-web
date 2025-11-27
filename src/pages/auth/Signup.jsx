@@ -39,20 +39,36 @@ function Signup() {
       return alert("Only Gmail email IDs are allowed!");
     }
 
-    try {
-      const response = await API.post("/api/signup", form);
+try {
+  const response = await API.post("/api/signup", form);
 
-      navigate("/verify-otp", {
-        state: {
-          email: form.email,
-          userId: response.data.userId,
-        },
-      });
-    } catch (err) {
-      alert(err.response?.data?.message || "Signup failed");
-    }
-  };   // <-- CORRECT — only 1 closing curly here
+  // ✅ Always check status + data
+  if (response.status === 201 && response.data.userId) {
+    navigate("/verify-otp", {
+      state: {
+        email: form.email,
+        userId: response.data.userId,
+      },
+    });
+  } else {
+    alert("Signup failed. Please try again.");
+  }
 
+} catch (err) {
+  console.error("Signup error:", err);
+
+  // ✅ Handle all cases safely
+  if (err.response) {
+    // Backend responded with error (400, 500 etc)
+    alert(err.response.data?.message || "Signup failed");
+  } else if (err.request) {
+    // Request sent but NO response (timeout / OTP mail hang)
+    alert("Server not responding. Please try again in a moment.");
+  } else {
+    alert("Something went wrong. Try again.");
+  }
+}
+  }
   return (
     <div className={styles.outer}>
       <div className={styles.frame}>

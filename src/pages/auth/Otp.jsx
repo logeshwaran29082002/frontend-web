@@ -26,7 +26,7 @@ function Otp() {
     try {
       setLoading(true);
 
-      await API.post("/api/signup-verify-otp", { userId, otp });
+      await API.post("/api/signup-verify-otp", { userId, otp });      
 
       alert("OTP Verified Successfully!");
       navigate("/login");

@@ -12,12 +12,13 @@ function ResetPassword() {
     e.preventDefault();
 
     try {
-      const res = await API.post("/api/reset-password", { email });
+      await API.post("/api/reset-password", { email });
 
-      const token = res.data.token;
+      alert("Reset OTP sent to your email!");
+      navigate("/reset-otp", {
+        state: { email },
+      });
 
-      alert("Reset token sent to your email!");
-      navigate(`/reset-password/${token}`);
     } catch (err) {
       setMsg(err.response?.data?.message || "Something went wrong");
     }
@@ -26,22 +27,19 @@ function ResetPassword() {
   return (
     <div className={styles.outer}>
       <div className={styles.frame}>
-
         <div className={styles.left}>
           <div className={styles.leftContent}>
             <h1>Reset<br/>Password</h1>
-            <p>Enter your registered email to get the reset link.</p>
+            <p>Enter your registered email to get the reset OTP.</p>
           </div>
         </div>
 
         <div className={styles.right}>
           <form className={styles.form} onSubmit={handleSubmit}>
-
             <h2>Reset Password</h2>
 
             <label className={styles.field}>
               <span className={styles.labelText}>Email</span>
-
               <div className={styles.inputRow}>
                 <input
                   type="email"
@@ -53,24 +51,12 @@ function ResetPassword() {
             </label>
 
             <button className={styles.cta} type="submit">
-              Send Reset Token
+              Send OTP
             </button>
 
             {msg && <p className={styles.error}>{msg}</p>}
-
-            <p className={styles.footerText}>
-              Back to
-              <button
-                className={styles.link}
-                type="button"
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </button>
-            </p>
           </form>
         </div>
-
       </div>
     </div>
   );

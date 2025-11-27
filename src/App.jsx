@@ -9,10 +9,10 @@ import Home from "./pages/auth/Home";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ResetPasswordToken from "./pages/auth/ResetPasswordToken";
 import ProtectedRoute from "./pages/auth/ProtectedRoute";
+import ResetOtp from "./pages/auth/ResetOtp";
 
 function App() {
   return (
-<GoogleOAuthProvider clientId="868308987484-13lgb64pitu9sufrk1decp9obmeav3ps.apps.googleusercontent.com">
 
       <Routes>
         <Route path="/" element={<Navigate to="/signup" replace />} />
@@ -31,11 +31,12 @@ function App() {
         />
 
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/reset-otp" element={<ResetOtp />} />
         <Route path="/reset-password/:token" element={<ResetPasswordToken />} />
 
         <Route path="*" element={<div>404 - Page not found</div>} />
       </Routes>
-    </GoogleOAuthProvider>
+    
   );
 }
 

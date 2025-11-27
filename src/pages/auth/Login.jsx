@@ -18,6 +18,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       setLoading(true);
 
@@ -41,7 +42,11 @@ function Login() {
       <div className={styles.frame}>
         <div className={styles.left}>
           <div className={styles.leftContent}>
-            <h1>WELCOME<br/>BACK!</h1>
+            <h1>
+              WELCOME
+              <br />
+              BACK!
+            </h1>
             <p>Login to continue your journey</p>
           </div>
         </div>
@@ -57,6 +62,7 @@ function Login() {
                   type="email"
                   name="email"
                   placeholder="Enter your email"
+                  value={form.email}
                   onChange={handleChange}
                   required
                 />
@@ -71,6 +77,7 @@ function Login() {
                   type={showPass ? "text" : "password"}
                   name="password"
                   placeholder="Enter your password"
+                  value={form.password}
                   onChange={handleChange}
                   required
                 />
@@ -78,6 +85,7 @@ function Login() {
                 <span
                   className={styles.showPass}
                   onClick={() => setShowPass(!showPass)}
+                  style={{ cursor: "pointer" }}
                 >
                   {showPass ? "Hide" : "Show"}
                 </span>
@@ -109,7 +117,6 @@ function Login() {
             </p>
           </form>
         </div>
-
       </div>
     </div>
   );

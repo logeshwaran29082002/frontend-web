@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../../utils/interceptor";
 import styles from "../../styles/pages/ResetPasswordToken.module.css";
@@ -8,6 +8,13 @@ function ResetPasswordToken() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
+
+  // ✅ Safety: token இல்லன்னா redirect
+  useEffect(() => {
+    if (!token) {
+      navigate("/reset-password");
+    }
+  }, [token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +37,9 @@ function ResetPasswordToken() {
 
         <div className={styles.left}>
           <div className={styles.leftContent}>
-            <h1>New<br/>Password</h1>
+            <h1>
+              New<br />Password
+            </h1>
             <p>Create a strong password to secure your account</p>
           </div>
         </div>
@@ -45,6 +54,7 @@ function ResetPasswordToken() {
                 <input
                   type="password"
                   placeholder="Enter new password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
@@ -65,4 +75,3 @@ function ResetPasswordToken() {
 }
 
 export default ResetPasswordToken;
- 

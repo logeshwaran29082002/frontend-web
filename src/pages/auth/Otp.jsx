@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import API from "../../utils/interceptor";
 import styles from "../../styles/pages/Otp.module.css";
@@ -10,10 +10,12 @@ function Otp() {
   const email = state?.email;
   const userId = state?.userId;
 
-  if (!email || !userId) {
-    navigate("/signup");
-    return null;
-  }
+  // ✅ SAFE REDIRECT
+  useEffect(() => {
+    if (!email || !userId) {
+      navigate("/signup");
+    }
+  }, [email, userId, navigate]);
 
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
@@ -54,7 +56,11 @@ function Otp() {
       <div className={styles.frame}>
         <div className={styles.left}>
           <div className={styles.leftContent}>
-            <h1>VERIFY<br/>OTP</h1>
+            <h1>
+              VERIFY
+              <br />
+              OTP
+            </h1>
             <p>Enter OTP sent to your registered email.</p>
           </div>
         </div>
@@ -76,7 +82,10 @@ function Otp() {
                 />
 
                 <svg className={styles.icon} viewBox="0 0 24 24" width="20">
-                  <path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                  <path
+                    fill="currentColor"
+                    d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+                  />
                 </svg>
               </div>
             </label>
@@ -87,13 +96,16 @@ function Otp() {
 
             <p className={styles.footerText}>
               Didn’t receive the OTP?
-              <button type="button" className={styles.link} onClick={handleResendOtp}>
+              <button
+                type="button"
+                className={styles.link}
+                onClick={handleResendOtp}
+              >
                 Resend OTP
               </button>
             </p>
           </form>
         </div>
-
       </div>
     </div>
   );

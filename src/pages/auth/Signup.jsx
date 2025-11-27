@@ -39,36 +39,33 @@ function Signup() {
       return alert("Only Gmail email IDs are allowed!");
     }
 
-try {
-  const response = await API.post("/api/signup", form);
+    try {
+      const response = await API.post("/api/signup", form);
 
-  // ✅ Always check status + data
-  if (response.status === 201 && response.data.userId) {
-    navigate("/verify-otp", {
-      state: {
-        email: form.email,
-        userId: response.data.userId,
-      },
-    });
-  } else {
-    alert("Signup failed. Please try again.");
-  }
+      if (response.status === 201 && response.data.userId) {
+        navigate("/verify-otp", {
+          state: {
+            email: form.email,
+            userId: response.data.userId,
+          },
+        });
+      } else {
+        alert("Signup failed. Please try again.");
+      }
 
-} catch (err) {
-  console.error("Signup error:", err);
+    } catch (err) {
+      console.error("Signup error:", err);
 
-  // ✅ Handle all cases safely
-  if (err.response) {
-    // Backend responded with error (400, 500 etc)
-    alert(err.response.data?.message || "Signup failed");
-  } else if (err.request) {
-    // Request sent but NO response (timeout / OTP mail hang)
-    alert("Server not responding. Please try again in a moment.");
-  } else {
-    alert("Something went wrong. Try again.");
-  }
-}
-  }
+      if (err.response) {
+        alert(err.response.data?.message || "Signup failed");
+      } else if (err.request) {
+        alert("Server not responding. Please try again in a moment.");
+      } else {
+        alert("Something went wrong. Try again.");
+      }
+    }
+  };
+
   return (
     <div className={styles.outer}>
       <div className={styles.frame}>
@@ -179,7 +176,7 @@ try {
                     navigate("/home");
                   } catch (err) {
                     alert("Google Login Failed");
-                  }                                     
+                  }
                 }}
                 onError={() => {
                   alert("Google Login Failed");
